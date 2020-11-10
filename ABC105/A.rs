@@ -16,12 +16,13 @@ fn min(a: i64, b:i64) -> i64 {
 }
 
 fn main() {
-  let n: i64 = input();
-  if 0 < n && n < 1200 {
-    println!("ABC");
-  } else if 1200 <= n && n < 2800 {
-    println!("ARC");
+  let s: String = input();
+  let v: Vec<&str> = s.split(" ").collect();
+  let n: i64 = v[0].parse::<i64>().unwrap();
+  let k: i64 = v[1].parse::<i64>().unwrap();
+  if n % k != 0 {
+    println!("1");
   } else {
-    println!("AGC");
+    println!("0")
   }
 }

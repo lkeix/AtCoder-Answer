@@ -16,31 +16,14 @@ fn min(a: i64, b:i64) -> i64 {
 }
 
 fn main() {
-  let n: String = input();
-  const Up: &str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  let target: String = n.chars().skip(2).take(n.len() - 3).collect();
-  let mut condition1: bool = false;
-  let mut condition2: bool = false;
-  let mut upperNum: i64 = 0;
-
-  if n.chars().nth(0).unwrap() == 'A' {
-    condition1 = true
-  }
-  for i in target.chars() {
-    if i == 'C' {
-      condition2 = true;
-    }
-  }
-  for i in n.chars() {
-    for j in Up.chars() {
-      if i == j {
-        upperNum += 1;
+  let n: i64 = input();
+  for i in 0..25 {
+    for j in 0..15 {
+      if i*4 + j*7 == n {
+        println!("Yes");
+        return;
       }
     }
   }
-  if condition1 && condition2 && upperNum == 2 {
-    println!("AC");
-  } else {
-    println!("WA");
-  }
+  println!("No");
 }

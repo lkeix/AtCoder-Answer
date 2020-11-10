@@ -1,5 +1,6 @@
 use std::io::*;
 use std::str::FromStr;
+use std::collections::HashMap;
 
 // Quoted from https://qiita.com/penguinshunya/items/cd96803b74635aebefd6
 fn input<T: FromStr>() -> T {
@@ -9,33 +10,23 @@ fn input<T: FromStr>() -> T {
 }
 
 fn main() {
-  let s: String = input();
-  let sa: Vec<char> = s.trim().chars().collect();
-  let n: usize = s.len();
-  let mut dp: Vec<i64> = vec![0,0,0,0];
-  dp[0] = 1;
-  const MOD: i64 = 1000000000 + 7;
-  for i in 0..n {
-    let mut next: Vec<i64> = vec![0,0,0,0];
-    next = dp.clone();
-    match sa[i] {
-      'A' => {
-        next[1] = dp[0] + dp[1];
-      }
-      'B' => {
-        next[2] = dp[1] + dp[2];
-      }
-      'C' => {
-        next[3] = dp[2] + dp[3];
-      }
-      _ => {
-        next[0] = next[0] * 3 % MOD;
-        next[1] = (dp[0] + dp[1] * 3) % MOD;
-        next[2] = (dp[1] + dp[2] * 3) % MOD;
-        next[3] = (dp[2] + dp[3] * 3) % MOD;
-      }
-    }
-    dp = next;
+  let mut s: String = input();
+  let sa: Vec<&str> = s.split(" ").collect();
+  let n: usize = sa[0].parse::<usize>().unwrap();
+  let m: i64 = sa[1].parse::<i64>().unwrap();
+  s = input();
+  let ni_s: Vec<&str> = s.split(" ").collect();
+  let mut ni: Vec<i64> = vec![0];
+  let mut sum: i64 = 0;
+  let mut mp: HashMap<i64, i64> = HashMap::new();
+  for i in ni_s {
+    sum += i.parse::<i64>().unwrap();
+    ni.push(sum);
   }
-  println!("{}", dp[3] % MOD);
+  let mut res: i64 = 0;
+  for i in ni {
+    mp.entry(i % m).and_modify(|x| *x += 1).or_insert(1);
+    res += *mp.get(&(i % m)).unwrap() - 1;
+  }
+  println!("{}", res);
 }
